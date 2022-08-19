@@ -1,0 +1,6 @@
+# please keep the aiges for the latest
+aiges
+torch
+torchvision
+opencv-python
+opencv-python-headless
