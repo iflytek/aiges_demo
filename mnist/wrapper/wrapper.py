@@ -10,10 +10,11 @@
 
 import sys
 import hashlib
+from aiges.types import *
 try:
     from aiges_embed import ResponseData, Response, DataListNode, DataListCls  # c++
 except:
-    from aiges.dto import Response, ResponseData, DataListNode, DataListCls,Once, DataText
+    from aiges.dto import Response, ResponseData, DataListNode, DataListCls
 
 from aiges.sdk import WrapperBase, \
     StringParamField, \
