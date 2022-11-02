@@ -38,7 +38,7 @@ class UserRequest(object):
 
 # 定义模型的输出参数
 class UserResponse(object):
-    accept1 = StringBodyField(key="number")
+    accept1 = StringBodyField(key=b"number")
 
 # 定义服务推理逻辑
 class Wrapper(WrapperBase):
