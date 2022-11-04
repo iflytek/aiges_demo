@@ -52,7 +52,7 @@ class Wrapper(WrapperBase):
         log.info("Initializing ...")
         device = torch.device('cpu')
         cls.model = MNIST().to(device)
-        cls.model.load_state_dict(torch.load('mnist.pkl'))
+        cls.model.load_state_dict(torch.load('/Users/yangyanbo/projects/iflytek/code/athenaloader/aiges_demo/mnist/wrapper/mnist.pkl'))
         return 0
 
 
@@ -72,8 +72,8 @@ class Wrapper(WrapperBase):
         resd.key = "img"
         resd.type = DataText
         resd.status = Once
-        resd.data = result
-        resd.len = 1
+        resd.data = result.numpy().tobytes()
+        resd.len = len(resd.data)
         res.list = [resd]
         return res
 
