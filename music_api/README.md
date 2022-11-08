@@ -31,13 +31,13 @@
     
     ```python
          class Wrapper(WrapperBase):
-            def wrapperInit(cls, config: {}) -> int:
+            def wrapperInit(self, config: {}) -> int:
                ...
             
-            def wrapperFini(cls) -> int:
+            def wrapperFini(self) -> int:
                ...
             
-            def wrapperError(cls, ret: int) -> str:
+            def wrapperError(self, ret: int) -> str:
                ...
             
             # 这里需要注意返回的类型是 Response 对象
