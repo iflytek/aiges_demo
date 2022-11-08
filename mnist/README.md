@@ -1,8 +1,11 @@
 # mnist
 
-* This is your first aiges python wrapper project: mnist, located at: ./
+Mnist示例
 
-## Debug
 
-to debug or run your wrapper local, please implement .... todo
-# for test
+## 训练
+
+训练代码来源于: [Mnist Code](https://github.com/pytorch/examples/blob/main/mnist/main.py)
+
+稍作修改，利用CPU训练得到模型文件
+

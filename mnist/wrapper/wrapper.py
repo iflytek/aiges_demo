@@ -7,38 +7,66 @@
 @project: mnist
 @project: ./
 """
+import json
+import os.path
 
-import sys
-import hashlib
 from aiges.types import *
+
 try:
     from aiges_embed import ResponseData, Response, DataListNode, DataListCls  # c++
 except:
     from aiges.dto import Response, ResponseData, DataListNode, DataListCls
 
 from aiges.sdk import WrapperBase, \
-    StringParamField, \
     ImageBodyField, \
     StringBodyField
 from aiges.utils.log import log
 
-
 # 导入inference.py中的依赖包
-import cv2
+import io
+
 import torch
-import torchvision.transforms as transforms
-from Model import MNIST
-import numpy as np
+import torch.nn as nn
+import torch.nn.functional as F
+from PIL import Image
+from torchvision import transforms
 
 
 # 定义模型的超参数和输入参数
 class UserRequest(object):
-
     input1 = ImageBodyField(key="img", path="test_data/0.png")
+
 
 # 定义模型的输出参数
 class UserResponse(object):
     accept1 = StringBodyField(key=b"number")
+
+
+class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, 3, 1)
+        self.conv2 = nn.Conv2d(32, 64, 3, 1)
+        self.dropout1 = nn.Dropout(0.25)
+        self.dropout2 = nn.Dropout(0.5)
+        self.fc1 = nn.Linear(9216, 128)
+        self.fc2 = nn.Linear(128, 10)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = F.relu(x)
+        x = self.conv2(x)
+        x = F.relu(x)
+        x = F.max_pool2d(x, 2)
+        x = self.dropout1(x)
+        x = torch.flatten(x, 1)
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.dropout2(x)
+        x = self.fc2(x)
+        output = F.log_softmax(x, dim=1)
+        return output
+
 
 # 定义服务推理逻辑
 class Wrapper(WrapperBase):
@@ -48,39 +76,56 @@ class Wrapper(WrapperBase):
     responseCls = UserResponse()
     model = None
 
-    def wrapperInit(cls, config: {}) -> int:
+    def __init__(self):
+        super().__init__()
+        self.transform = None
+        self.device = None
+
+    def wrapperInit(self, config: {}) -> int:
         log.info("Initializing ...")
-        device = torch.device('cpu')
-        cls.model = MNIST().to(device)
-        cls.model.load_state_dict(torch.load('/Users/yangyanbo/projects/iflytek/code/athenaloader/aiges_demo/mnist/wrapper/mnist.pkl'))
+        self.device = torch.device("cpu")
+        self.model = Net().to(self.device)
+        ptfile = os.path.join(os.path.dirname(__file__), "train", "mnist_cnn.pt")
+        self.model.load_state_dict(torch.load(ptfile))  # 根据模型结构，调用存储的模型参数
+        self.model.eval()
+        self.transform = transforms.Compose([
+            transforms.Grayscale(num_output_channels=1),
+            transforms.Resize([28, 28]),
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,))
+        ])
         return 0
 
-
-    def wrapperOnceExec(cls, params: {}, reqData: DataListCls) -> Response:
-
+    def wrapperOnceExec(self, params: {}, reqData: DataListCls) -> Response:
         # 读取测试图片并进行模型推理
         log.info("got reqdata , %s" % reqData.list)
         imagebytes = reqData.get("img").data
-        image  = [cv2.imdecode(np.frombuffer(imagebytes, np.uint8), cv2.COLOR_BGR2GRAY)]
-        image_tensor = torch.unsqueeze(torch.Tensor(image), dim=0)
-        result = cls.model(image_tensor).argmax()
-        print(result)
-        
+
+        img = Image.open(io.BytesIO(imagebytes))
+
+        img = self.transform(img).unsqueeze(0)
+        print(img.shape)
+        img.to(self.device)
+        result = self.model(img).argmax()
+        log.info("##result ###:%d" % int(result))
+
+        retC = {
+            "result": int(result),
+            "msg": "识别结果为数字: %d" % int(result)
+        }
         # 使用Response封装result
         res = Response()
         resd = ResponseData()
         resd.key = "img"
         resd.type = DataText
         resd.status = Once
-        resd.data = result.numpy().tobytes()
+        resd.data = json.dumps(retC).encode("utf-8")
         resd.len = len(resd.data)
         res.list = [resd]
         return res
 
-
     def wrapperFini(cls) -> int:
         return 0
-
 
     def wrapperError(cls, ret: int) -> str:
         if ret == 100:
@@ -93,6 +138,7 @@ class Wrapper(WrapperBase):
 
     def wrapperTestFunc(cls, data: [], respData: []):
         pass
+
 
 if __name__ == '__main__':
     m = Wrapper()
