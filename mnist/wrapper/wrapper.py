@@ -39,7 +39,7 @@ class UserRequest(object):
 
 # 定义模型的输出参数
 class UserResponse(object):
-    accept1 = StringBodyField(key=b"number")
+    accept1 = StringBodyField(key="number")
 
 
 class Net(nn.Module):
@@ -116,7 +116,7 @@ class Wrapper(WrapperBase):
         # 使用Response封装result
         res = Response()
         resd = ResponseData()
-        resd.key = "img"
+        resd.key = "result"
         resd.type = DataText
         resd.status = Once
         resd.data = json.dumps(retC).encode("utf-8")
