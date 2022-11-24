@@ -76,8 +76,8 @@ class Wrapper(WrapperBase):
     responseCls = UserResponse()
     model = None
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.transform = None
         self.device = None
 
