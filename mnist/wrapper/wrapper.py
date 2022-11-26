@@ -34,12 +34,12 @@ from torchvision import transforms
 
 # 定义模型的超参数和输入参数
 class UserRequest(object):
-    input1 = ImageBodyField(key="img", path="test_data/0.png")
+    input1 = ImageBodyField(key="img", path="aiges_demo/mnist/wrapper/test_data/0.png")
 
 
 # 定义模型的输出参数
 class UserResponse(object):
-    accept1 = StringBodyField(key="number")
+    accept1 = StringBodyField(key="result")
 
 
 class Net(nn.Module):
