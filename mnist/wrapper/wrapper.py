@@ -10,7 +10,7 @@
 import json
 import os.path
 
-from aiges.types import *
+from aiges.core.types import *
 
 try:
     from aiges_embed import ResponseData, Response, DataListNode, DataListCls  # c++
@@ -111,7 +111,7 @@ class Wrapper(WrapperBase):
 
         retC = {
             "result": int(result),
-            "msg": "识别结果为数字: %d" % int(result)
+            "msg": "result is: %d" % int(result)
         }
         # 使用Response封装result
         res = Response()
