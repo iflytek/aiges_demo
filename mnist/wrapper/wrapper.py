@@ -20,7 +20,7 @@ except:
 from aiges.sdk import WrapperBase, \
     ImageBodyField, \
     StringBodyField
-from aiges.utils.log import log
+from aiges.utils.log import log, getFileLogger
 
 # 导入inference.py中的依赖包
 import io
@@ -80,10 +80,12 @@ class Wrapper(WrapperBase):
         super().__init__(*args, **kwargs)
         self.transform = None
         self.device = None
+        self.filelogger = None
 
     def wrapperInit(self, config: {}) -> int:
         log.info("Initializing ...")
         self.device = torch.device("cpu")
+        self.filelogger = getFileLogger()
         self.model = Net().to(self.device)
         ptfile = os.path.join(os.path.dirname(__file__), "train", "mnist_cnn.pt")
         self.model.load_state_dict(torch.load(ptfile))  # 根据模型结构，调用存储的模型参数
@@ -98,7 +100,7 @@ class Wrapper(WrapperBase):
 
     def wrapperOnceExec(self, params: {}, reqData: DataListCls) -> Response:
         # 读取测试图片并进行模型推理
-        log.info("got reqdata , %s" % reqData.list)
+        self.filelogger.info("got reqdata , %s" % reqData.list)
         imagebytes = reqData.get("img").data
 
         img = Image.open(io.BytesIO(imagebytes))
