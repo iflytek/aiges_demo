@@ -14,3 +14,6 @@ ADD wrapper /home/aiges
 
 # companion.xfyun.iflytek:6868 is the default config center. It depends on how your athena serving framework built
 CMD ["sh", "-c", "./AIservice -m=0 -c=aiges.toml -s=svcName -u=http://companion.xfyun.iflytek:6868 -p=AIaaS -g=dx"]
+
+
+# CMD ["sh", "-c", "./AIservice -m=1 -c=s40dd9d54.toml -s=s40dd9d54 -u=http://companion.xfyun.iflytek:6868 -p=AIaaS -g=dx"]
