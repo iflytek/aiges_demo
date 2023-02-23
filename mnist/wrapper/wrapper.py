@@ -34,7 +34,7 @@ from torchvision import transforms
 
 # 定义模型的超参数和输入参数
 class UserRequest(object):
-    input1 = ImageBodyField(key="img", path="aiges_demo/mnist/wrapper/test_data/0.png")
+    input1 = ImageBodyField(key="img", path="test_data/0.png")
 
 
 # 定义模型的输出参数
@@ -119,10 +119,9 @@ class Wrapper(WrapperBase):
         res = Response()
         resd = ResponseData()
         resd.key = "result"
-        resd.type = DataText
+        resd.setDataType(DataText)
         resd.status = Once
-        resd.data = json.dumps(retC).encode("utf-8")
-        resd.len = len(resd.data)
+        resd.setData(json.dumps(retC).encode("utf-8"))
         res.list = [resd]
         return res
 
