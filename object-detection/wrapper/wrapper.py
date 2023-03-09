@@ -15,7 +15,7 @@ from aiges.core.types import *
 try:
     from aiges_embed import ResponseData, Response, DataListNode, DataListCls  # c++
 except:
-    from aiges.dto import Response, ResponseData, DataListNode, DataListCls,SessionCreateResponse
+    from aiges.dto import Response, ResponseData, DataListNode, DataListCls
 
 from aiges.sdk import WrapperBase, \
     ImageBodyField, \
@@ -30,13 +30,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 from PIL import Image
 from torchvision import transforms
-import random
+
 
 # 定义模型的超参数和输入参数
 class UserRequest(object):
     input1 = ImageBodyField(key="img", path="test_data/0.png")
-    ctrl = StringParamField(key="ctrl", value="helloworld")
-
+    params1 = StringParamField(key="ctrl",value="1")
 
 # 定义模型的输出参数
 class UserResponse(object):
@@ -73,7 +72,6 @@ class Net(nn.Module):
 class Wrapper(WrapperBase):
     serviceId = "mnist"
     version = "v1"
-    call_type = 1
     requestCls = UserRequest()
     responseCls = UserResponse()
     model = None
@@ -121,9 +119,10 @@ class Wrapper(WrapperBase):
         res = Response()
         resd = ResponseData()
         resd.key = "result"
-        resd.setDataType(DataText)
+        resd.type = DataText
         resd.status = Once
-        resd.setData(json.dumps(retC).encode("utf-8"))
+        resd.data = json.dumps(retC).encode("utf-8")
+        resd.len = len(resd.data)
         res.list = [resd]
         return res
 
@@ -134,11 +133,7 @@ class Wrapper(WrapperBase):
         if ret == 100:
             return "user error defined here"
         return ""
-    def wrapperCreate(cls, params: {}, sid: str) -> SessionCreateResponse:
-        print(params)
-        i = random.randint(1,30000)
-        print(sid)
-        return f"hd-test-{i}"
+
     '''
         此函数保留测试用，不可删除
     '''
@@ -148,6 +143,5 @@ class Wrapper(WrapperBase):
 
 
 if __name__ == '__main__':
-    m = Wrapper(legacy=False)
-    #m.run()
-    print(m.schema())
+    m = Wrapper()
+    m.run()
