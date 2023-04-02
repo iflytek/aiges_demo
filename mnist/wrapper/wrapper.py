@@ -13,7 +13,7 @@ import os.path
 from aiges.core.types import *
 
 try:
-    from aiges_embed import ResponseData, Response, DataListNode, DataListCls  # c++
+    from aiges_embed import ResponseData, Response, DataListNode, DataListCls,SessionCreateResponse # c++
 except:
     from aiges.dto import Response, ResponseData, DataListNode, DataListCls,SessionCreateResponse
 
