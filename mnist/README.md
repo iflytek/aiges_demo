@@ -1,15 +1,16 @@
 # Mnist demo
 # 准备环境
 python 版本请选用 3.9+（[也可以下载我们的docker镜像](http://https://github.com/iflytek/aiges/releases "也可以下载我们的docker镜像"))
-#1. 首先，在docker中配置容器环境（无需gpu），后续demo的运行也在容器中。
+
+# 1. 首先，在docker中配置容器环境（无需gpu），后续demo的运行也在容器中。
     docker run -itd --name mnist2 -p 1889:1888 iflyopensource/aiges-gpu:10.1-1.17-3.9.13-ubuntu1804-v3.3.7 bash
-#2. 在docker容器中安装SDK，命令如下
+# 2. 在docker容器中安装SDK，命令如下
     pip3 install aiges==0.5.0 -i https://pypi.python.org/simple
 
-#3. 利用Axel下载加载器
+# 3. 利用Axel下载加载器
     axel https://github.com/iflytek/aiges/releases/download/v3.3.7/aiges_3.3.7_linux_amd64.tar.gz
 
-#4. 初始化 python wrapper 项目
+# 4. 初始化 python wrapper 项目
 ## 4.1. 通过aiges创建一个名为mnist的项目
     python3 -m aiges create -n mnist
 ## 4.2. 初始的mnist项目结构
