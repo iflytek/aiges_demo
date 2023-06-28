@@ -6,7 +6,7 @@ Mnist示例
 {
     ctrl = StringParamField(key="ctrl", value="helloworld")
 	修改为
-	ctrl = StringParamField(key="ctrl", value=b"helloworld")
+    ctrl = StringParamField(key="ctrl", value=b"helloworld")
 }
 ```
 ## 训练
