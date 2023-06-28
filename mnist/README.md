@@ -1,7 +1,6 @@
 # Mnist demo
 # 准备环境
 python 版本请选用 3.9+（[也可以下载我们的docker镜像](http://https://github.com/iflytek/aiges/releases "也可以下载我们的docker镜像"))
-
 # 1. 首先，在docker中配置容器环境（无需gpu），后续demo的运行也在容器中。
     docker run -itd --name mnist2 -p 1889:1888 iflyopensource/aiges-gpu:10.1-1.17-3.9.13-ubuntu1804-v3.3.7 bash
 # 2. 在docker容器中安装SDK，命令如下
@@ -25,23 +24,26 @@ python 版本请选用 3.9+（[也可以下载我们的docker镜像](http://http
         └── wrapper.py
 
 ## 4.3. 解压加载器
-    tar zxvf aiges_3.3.7_linux_amd64.tar.gz
+    tar zxvf aiges_3.3.7_linux_amd64.tar.gz -C mnist
 
-# 注意
-```asp
-{
-	进入aiges.toml,将"log.level" = "info"改成"debug"
-	进入/mnist/wrapper/wrapper.py的第54行对代码进行如下修改
-    ctrl = StringParamField(key="ctrl", value="helloworld")
-	修改为
-    ctrl = StringParamField(key="ctrl", value=b"helloworld")
-}
-```
 # 5. 编写推理逻辑wrapper，以mnist项目为例
-    ./AIservice -init, 初始化配置文件 aiges.toml (若存在，则不会替换)
-    export AIGES_PLUGIN_MODE=python
-    export PYTHONPATH=/home/aiges/mnist/wrapper
-    ./AIservice -m 0 -c aiges.toml -s svcName
+
+## 5.1. 下载 mnist demo:
+```javascript
+./AIservice -mnist
+默认会下载 https://github.com/iflytek/aiges_demo.git 项目,并解压到当前目录
+替换mnist下的wrapper目录，命令如下:
+	rm -r mnist/wrapper
+	cp aiges_demo/mnist/wrapper mnist/
+将aiges_demo里的requirements.txt转移到wrapper并安装依赖，命令如下:
+	cp -ra aiges_demo/mnist/requirements.txt mnist/
+	pip install -r requirements.txt
+./AIservice -init, 初始化配置文件 aiges.toml (若存在，则不会替换)
+export AIGES_PLUGIN_MODE=python
+export PYTHONPATH=/home/aiges/mnist/wrapper
+./AIservice -m 0 -c aiges.toml -s svcName   
+```
+
 ## 标准输出如下：
 ```asp
 /home/aiges# ./AIservice -m 0 -c aiges.toml -s svcName
@@ -126,8 +128,16 @@ aiService.Init: init success!
 - 默认集成了 swagger2.0 for openapi3.0.
 - 启动后访问 ：http://<yourip>:1889
 - 如下图所示：
+```![](/examples/php/../uploads/swagger.png)
+- 这里需要修改key为image，对应的value为Base64 编码后的图片格式
+![](/examples/php/../uploads/response.png)
 
-训练代码来源于: [Mnist Code](https://github.com/pytorch/examples/blob/main/mnist/main.py)
+- 看到识别结果返回
+- 至此，单独的aiges加载器完成基本运行
+- 由于alpha 是裁剪后，并刚刚合并了 http接口部分，很多功能还不完善，但是基本可以托管能力
 
-稍作修改，利用CPU训练得到模型文件
+- 已知问题:
 
+- python进程退出未做处理，需要跟随父进程自动退出
+
+- 部分运行异常暂时没时间处理
