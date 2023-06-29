@@ -38,7 +38,7 @@ python 版本请选用 3.9+（[也可以下载我们的docker镜像](https://git
 将aiges_demo里的requirements.txt转移到wrapper并安装依赖，命令如下:
 	- cp -ra aiges_demo/mnist/requirements.txt mnist/
 	- pip install -r requirements.txt
-./AIservice -init, 初始化配置文件 aiges.toml (若存在，则不会替换)
+./AIservice -init # 初始化配置文件 aiges.toml (若存在，则不会替换)
 export AIGES_PLUGIN_MODE=python # 指定使用 Python 插件模式
 export PYTHONPATH=/home/aiges/mnist/wrapper # 指定 Python 解释器在导入模块时搜索的路径
 ./AIservice -m 0 -c aiges.toml -s svcName #运行引擎 
