@@ -28,13 +28,13 @@ python 版本请选用 3.9+（[也可以下载我们的docker镜像](https://git
 
 # 5. 编写推理逻辑wrapper，以mnist项目为例
 
-## 5.1. 下载 mnist demo:
+## 下载 mnist demo:
 ```javascript
 ./AIservice -mnist
 默认会下载 https://github.com/iflytek/aiges_demo.git 项目,并解压到当前目录
 替换mnist下的wrapper目录，命令如下:
-	rm -r mnist/wrapper
-	cp aiges_demo/mnist/wrapper mnist/
+	- rm -r mnist/wrapper
+	- cp aiges_demo/mnist/wrapper mnist/
 将aiges_demo里的requirements.txt转移到wrapper并安装依赖，命令如下:
 	cp -ra aiges_demo/mnist/requirements.txt mnist/
 	pip install -r requirements.txt
