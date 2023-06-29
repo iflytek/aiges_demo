@@ -1,6 +1,6 @@
 # Mnist demo
 # 准备环境
-python 版本请选用 3.9+（[也可以下载我们的docker镜像](http://https://github.com/iflytek/aiges/releases "也可以下载我们的docker镜像"))
+python 版本请选用 3.9+（[也可以下载我们的docker镜像](https://github.com/iflytek/aiges/releases "也可以下载我们的docker镜像"))
 # 1. 首先，在docker中配置容器环境（无需gpu），后续demo的运行也在容器中。
     docker run -itd --name mnist2 -p 1889:1888 iflyopensource/aiges-gpu:10.1-1.17-3.9.13-ubuntu1804-v3.3.7 bash
 # 2. 在docker容器中安装SDK，命令如下
