@@ -36,12 +36,12 @@ python 版本请选用 3.9+（[也可以下载我们的docker镜像](https://git
 	- rm -r mnist/wrapper
 	- cp aiges_demo/mnist/wrapper mnist/
 将aiges_demo里的requirements.txt转移到wrapper并安装依赖，命令如下:
-	cp -ra aiges_demo/mnist/requirements.txt mnist/
-	pip install -r requirements.txt
+	- cp -ra aiges_demo/mnist/requirements.txt mnist/
+	- pip install -r requirements.txt
 ./AIservice -init, 初始化配置文件 aiges.toml (若存在，则不会替换)
-export AIGES_PLUGIN_MODE=python
-export PYTHONPATH=/home/aiges/mnist/wrapper
-./AIservice -m 0 -c aiges.toml -s svcName   
+export AIGES_PLUGIN_MODE=python # 指定使用 Python 插件模式
+export PYTHONPATH=/home/aiges/mnist/wrapper # 指定 Python 解释器在导入模块时搜索的路径
+./AIservice -m 0 -c aiges.toml -s svcName #运行引擎 
 ```
 
 ## 标准输出如下：
@@ -136,7 +136,7 @@ aiService.Init: init success!
 - 至此，单独的aiges加载器完成基本运行
 - 由于alpha 是裁剪后，并刚刚合并了 http接口部分，很多功能还不完善，但是基本可以托管能力
 
-- 已知问题:
+#### 目前已知问题:
 
 - python进程退出未做处理，需要跟随父进程自动退出
 
