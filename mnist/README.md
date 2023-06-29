@@ -128,9 +128,9 @@ aiService.Init: init success!
 - 默认集成了 swagger2.0 for openapi3.0.
 - 启动后访问 ：http://<yourip>:1889
 - 如下图所示：
-```![](/examples/php/../uploads/swagger.png)
+![Image text](https://github.com/Jonyzqw/aiges_demo/blob/main/mnist/figure/swagger.png)
 - 这里需要修改key为image，对应的value为Base64 编码后的图片格式
-![](/examples/php/../uploads/response.png)
+![Image text](https://github.com/Jonyzqw/aiges_demo/blob/main/mnist/figure/response.png)
 
 - 看到识别结果返回
 - 至此，单独的aiges加载器完成基本运行
