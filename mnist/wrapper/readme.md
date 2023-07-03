@@ -118,4 +118,4 @@
 
 **AI能力部署成功如下图所示**
 
-​			![image-20230703173315471](C:\Users\zqwu21\AppData\Roaming\Typora\typora-user-images\image-20230703173315471.png)
+​		![Image text](https://github.com/Jonyzqw/aiges_demo/blob/main/mnist/figure/image-20230703173315471.png)
