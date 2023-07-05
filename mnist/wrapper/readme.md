@@ -123,4 +123,4 @@
 
 **AI能力部署成功如下图所示**
 
-​		![Image text](https://github.com/Jonyzqw/aiges_demo/blob/main/mnist/figure/image-20230703173315471.png)
+​		![Image text](https://github.com/Jonyzqw/aiges_demo/blob/main/mnist/figure/能力创建成功.png)
