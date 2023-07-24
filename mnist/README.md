@@ -2,7 +2,7 @@
 # 准备环境
 python 版本请选用 3.9+（[也可以下载我们的docker镜像](https://github.com/iflytek/aiges/releases "也可以下载我们的docker镜像"))
 # 1. 首先，在docker中配置容器环境（无需gpu），后续demo的运行也在容器中。
-    docker run -itd --name mnist2 -p 1889:1888 iflyopensource/aiges-gpu:10.1-1.17-3.9.13-ubuntu1804-v3.3.7 bash
+    docker run -itd --name mnist2 -p 1889:1888 iflyopensource/aiges-gpu:10.1-1.17-3.9.13-ubuntu1804-v3.4.4 bash
 # 2. 在docker容器中安装最新版本的SDK，命令如下
     pip install aiges --force -i https://pypi.tuna.tsinghua.edu.cn/simple
 
@@ -11,9 +11,10 @@ python 版本请选用 3.9+（[也可以下载我们的docker镜像](https://git
 - 获取最新版本的下载链接url
 -  wegt https://github.com/iflytek/aiges/releases/download/$version_latest/aiges_$version_latest_linux_amd64.tar.gz
 -  如果wegt下载超时，可以改用axel https://github.com/iflytek/aiges/releases/download/$version_latest/aiges_$version_latest_linux_amd64.tar.gz
-    
 
-# 4. 初始化 python wrapper 项目
+* 推荐以下操作在容器中执行: 使用镜像[iflyopensource/aiges-gpu:10.1-1.17-3.9.13-ubuntu1804-v3.4.4]
+
+# 4. 初始化 python wrapper 项目 
 ## 4.1. 通过aiges创建一个名为mnist的项目
     python3 -m aiges create -n mnist
 ## 4.2. 初始的mnist项目结构
@@ -27,8 +28,8 @@ python 版本请选用 3.9+（[也可以下载我们的docker镜像](https://git
         │   └── test.png
         └── wrapper.py
 
-## 4.3. 解压加载器
-    tar zxvf aiges_3.3.7_linux_amd64.tar.gz -C mnist
+## 4.3. 解压加载器（如果使用docker容器，可以不用执行此步骤)
+    tar zxvf aiges_3.4.4_linux_amd64.tar.gz -C mnist
 
 # 5. 编写推理逻辑wrapper，以mnist项目为例
 
