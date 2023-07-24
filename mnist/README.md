@@ -6,13 +6,15 @@ python 版本请选用 3.9+（[也可以下载我们的docker镜像](https://git
 # 2. 在docker容器中安装最新版本的SDK，命令如下
     pip install aiges --force -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-# 3. 利用wegt下载加载器
+# 3. 利用wegt下载加载器（不太推荐）
 - version_latest = $(curl -s "https://api.github.com/repos/iflytek/aiges/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 - 获取最新版本的下载链接url
 -  wegt https://github.com/iflytek/aiges/releases/download/$version_latest/aiges_$version_latest_linux_amd64.tar.gz
 -  如果wegt下载超时，可以改用axel https://github.com/iflytek/aiges/releases/download/$version_latest/aiges_$version_latest_linux_amd64.tar.gz
 
-* 推荐以下操作在容器中执行: 使用镜像[iflyopensource/aiges-gpu:10.1-1.17-3.9.13-ubuntu1804-v3.4.4]
+
+
+**推荐以下操作在容器中执行: 使用镜像[iflyopensource/aiges-gpu:10.1-1.17-3.9.13-ubuntu1804-v3.4.4]**
 
 # 4. 初始化 python wrapper 项目 
 ## 4.1. 通过aiges创建一个名为mnist的项目
