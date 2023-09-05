@@ -104,7 +104,13 @@ class Wrapper(WrapperBase):
         响应必须返回 Response类，非Response类将会引起未知错误
     '''
 
-    def wrapperOnceExec(cls, params: {}, reqData: DataListCls) -> Response:
+    def wrapperLoadRes(self, reqData: DataListCls, resId: int) -> int:
+        return 0
+
+    def wrapperUnloadRes(self, resId: int) -> int:
+        return 0
+    
+    def wrapperOnceExec(cls, params: {}, reqData: DataListCls, persId: int = 0) -> Response:
         log.info("got reqdata , %s" % reqData.list)
         #        print(type(reqData.list[0].data))
         #        print(type(reqData.list[0].data))

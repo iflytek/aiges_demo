@@ -113,7 +113,7 @@ class Wrapper(WrapperBase):
         print("sending")
         return 0
 
-    def wrapperCreate(self, params: {}, sid: str) -> SessionCreateResponse:
+    def wrapperCreate(self, params: {}, sid: str, persId: int = 0) -> SessionCreateResponse:
         """
         非会话模式计算接口,对应oneShot请求,可能存在并发调用
         @param ret wrapperOnceExec返回的response中的error_code 将会被自动传入本函数并通过http响应返回给最终用户
@@ -142,8 +142,14 @@ class Wrapper(WrapperBase):
         s.handle = handle
         s.error_code = 0
         return s
+    def wrapperLoadRes(self, reqData: DataListCls, resId: int) -> int:
+        return 0
 
-    def wrapperOnceExec(self, params: {}, reqData: DataListCls) -> Response:
+    def wrapperUnloadRes(self, resId: int) -> int:
+        return 0
+    
+    
+    def wrapperOnceExec(self, params: {}, reqData: DataListCls, persId: int = 0) -> Response:
         pass
         return None
 
