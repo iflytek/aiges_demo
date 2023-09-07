@@ -125,8 +125,12 @@ class Wrapper(WrapperBase):
         reqDat
         ret:错误码。无错误码时返回0
     '''
+    def wrapperLoadRes(self, reqData: DataListCls, resId: int) -> int:
+        return 0
 
-    def wrapperOnceExec(self, params: {}, reqData: DataListCls) -> Response:
+    def wrapperUnloadRes(self, resId: int) -> int:
+        return 0
+    def wrapperOnceExec(self, params: {}, reqData: DataListCls, persId: int = 0) -> Response:
         print(" --------------Start Exec------------------")
 
         data_mode = params['mode']

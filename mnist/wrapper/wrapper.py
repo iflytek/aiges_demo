@@ -100,7 +100,12 @@ class Wrapper(WrapperBase):
         ])
         return 0
 
-    def wrapperOnceExec(self, params: {}, reqData: DataListCls, usrTag: str = "") -> Response:
+    def wrapperLoadRes(self, reqData: DataListCls, resId: int) -> int:
+        return 0
+
+    def wrapperUnloadRes(self, resId: int) -> int:
+        return 0
+    def wrapperOnceExec(self, params: {}, reqData: DataListCls, usrTag: str = "", persId: int = 0) -> Response:
         # 读取测试图片并进行模型推理
         self.filelogger.info("got reqdata , %s" % reqData.list)
         imagebytes = reqData.get("img").data
@@ -134,7 +139,7 @@ class Wrapper(WrapperBase):
         if ret == 100:
             return "user error defined here"
         return ""
-    def wrapperCreate(cls, params: {}, sid: str) -> SessionCreateResponse:
+    def wrapperCreate(cls, params: {}, sid: str, persId: int = 0) -> SessionCreateResponse:
         print(params)
         i = random.randint(1,30000)
         print(sid)

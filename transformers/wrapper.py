@@ -69,7 +69,13 @@ class Wrapper(WrapperBase):
         buf = io.BytesIO(image.data)
         return Image.open(buf)
 
-    def wrapperOnceExec(self, params: {}, reqData: DataListCls) -> Response:
+    def wrapperLoadRes(self, reqData: DataListCls, resId: int) -> int:
+        return 0
+
+    def wrapperUnloadRes(self, resId: int) -> int:
+        return 0
+    
+    def wrapperOnceExec(self, params: {}, reqData: DataListCls, persId: int = 0) -> Response:
         log.info("got reqdata , %s" % reqData.list)
         image = reqData.get("image")
         question = reqData.get("question")
@@ -99,6 +105,7 @@ class Wrapper(WrapperBase):
 
     def wrapperFini(self) -> int:
         return 0
+
 
     def wrapperError(self, ret: int) -> str:
         if ret == 100:

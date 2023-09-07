@@ -98,7 +98,13 @@ class Wrapper(WrapperBase):
         ])
         return 0
 
-    def wrapperOnceExec(self, params: {}, reqData: DataListCls) -> Response:
+    def wrapperLoadRes(self, reqData: DataListCls, resId: int) -> int:
+        return 0
+
+    def wrapperUnloadRes(self, resId: int) -> int:
+        return 0
+    
+    def wrapperOnceExec(self, params: {}, reqData: DataListCls, persId: int = 0) -> Response:
         # 读取测试图片并进行模型推理
         self.filelogger.info("got reqdata , %s" % reqData.list)
         imagebytes = reqData.get("img").data
