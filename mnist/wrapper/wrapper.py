@@ -107,6 +107,7 @@ class Wrapper(WrapperBase):
         return 0
     def wrapperOnceExec(self, params: {}, reqData: DataListCls, usrTag: str = "", persId: int = 0) -> Response:
         # 读取测试图片并进行模型推理
+        ctrl = params.get("ctrl", "default")
         self.filelogger.info("got reqdata , %s" % reqData.list)
         imagebytes = reqData.get("img").data
 
