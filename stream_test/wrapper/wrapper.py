@@ -142,13 +142,13 @@ class Wrapper(WrapperBase):
         s.handle = handle
         s.error_code = 0
         return s
+
     def wrapperLoadRes(self, reqData: DataListCls, resId: int) -> int:
         return 0
 
     def wrapperUnloadRes(self, resId: int) -> int:
         return 0
-    
-    
+
     def wrapperOnceExec(self, params: {}, reqData: DataListCls, persId: int = 0) -> Response:
         pass
         return None
@@ -242,8 +242,8 @@ class MyReqDataThread(StreamHandleThread):
             else:
                 resd.status = DataContinue  # 中间数据是1
             resd.type = DataText
-            resd.data = json.dumps(retC).encode("utf-8")
-            resd.len = len(resd.data)
+            resd.setData(json.dumps(retC).encode("utf-8"))
+            #resd.len = len(resd.data)
             res.list = [resd]
             self.session_thread.callback_fn(res, self.session_thread.sid)
             if resd.status == DataEnd:  # 这里要在 i % opt.decoder_step == 0: 外部判断 ，否则进不到这个逻辑
