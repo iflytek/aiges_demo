@@ -107,29 +107,33 @@ class Wrapper(WrapperBase):
         return 0
     def wrapperOnceExec(self, params: {}, reqData: DataListCls, usrTag: str = "", persId: int = 0) -> Response:
         # 读取测试图片并进行模型推理
+        # 使用Response封装result
+        res = Response()
+        ctrl = params.get("ctrl", "default")
         self.filelogger.info("got reqdata , %s" % reqData.list)
         imagebytes = reqData.get("img").data
 
         img = Image.open(io.BytesIO(imagebytes))
-
-        img = self.transform(img).unsqueeze(0)
-        print(img.shape)
-        img.to(self.device)
-        result = self.model(img).argmax()
-        log.info("##result ###:%d" % int(result))
-
-        retC = {
-            "result": int(result),
-            "msg": "result is: %d" % int(result)
-        }
-        # 使用Response封装result
-        res = Response()
-        resd = ResponseData()
-        resd.key = "result"
-        resd.setDataType(DataText)
-        resd.status = Once
-        resd.setData(json.dumps(retC).encode("utf-8"))
-        res.list = [resd]
+        try:
+            img = self.transform(img).unsqueeze(0)
+            print(img.shape)
+            img.to(self.device)
+            result = self.model(img).argmax()
+            log.info("##result ###:%d" % int(result))
+    
+            retC = {
+                "result": int(result),
+                "msg": "result is: %d" % int(result)
+            }
+            resd = ResponseData()
+            resd.key = "result"
+            resd.setDataType(DataText)
+            resd.status = Once
+            resd.setData(json.dumps(retC).encode("utf-8"))
+            res.list = [resd]
+        except Exception as :
+            log.error(e)
+            return res.response_err(100)
         return res
 
     def wrapperFini(cls) -> int:
@@ -137,7 +141,7 @@ class Wrapper(WrapperBase):
 
     def wrapperError(cls, ret: int) -> str:
         if ret == 100:
-            return "user error defined here"
+            return "wrapper exec exception here..."
         return ""
     def wrapperCreate(cls, params: {}, sid: str, persId: int = 0) -> SessionCreateResponse:
         print(params)
