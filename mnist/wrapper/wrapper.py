@@ -34,7 +34,9 @@ import random
 
 # 定义模型的超参数和输入参数
 class UserRequest(object):
+    # 这里定义的 ImageBodyField， 在wrapperOnceExec 中 需要用reqData.get("img").data来获取二进制
     input1 = ImageBodyField(key="img", path="test_data/0.png")
+    # 这里定义的 StringParamField 在wrapperOnceExec 中 需要用 params.get("ctrl")来获取 ctrl参数值
     ctrl = StringParamField(key="ctrl", value="helloworld")
 
 
@@ -131,7 +133,7 @@ class Wrapper(WrapperBase):
             resd.status = Once
             resd.setData(json.dumps(retC).encode("utf-8"))
             res.list = [resd]
-        except Exception as :
+        except Exception as e:
             log.error(e)
             return res.response_err(100)
         return res
